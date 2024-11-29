@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+  <head>
+    <title>발음 학습 퀴즈</title>
+    <link rel="stylesheet" href="{% static 'css/sent_styles.css' %}">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>발음 학습 퀴즈</h1>
+      <!-- 문제 영역 -->
+      <div class="question-container">
+        <!-- 문제 번호 -->
+        <p id="questionNumberText">
+          <strong>문제:</strong> {{ current_question }}/{{ total_questions }}
+        </p>
+        <!-- 문장 -->
+        <p id="questionText">
+          <strong>문장:</strong> {{ sentence }}
+        </p>
+        <!-- 뜻 -->
+        <p id="meaningText">
+          <strong>뜻:</strong> {{ meaning }}
+        </p>
+      </div>
+
+      <!-- Hidden input for the current word -->
+      <input type="hidden" id="hiddenWord" value="{{ word }}">
+
+      <!-- Mic button -->
+      <div class="controls">
+        <button class="mic-status" id="micButton">
+          <div class="mic-icon">
+            <i class="fas fa-microphone"></i>
+          </div>
+          <div class="mic-animation"></div>
+        </button>
+        <p id="statusMessage" class="status-text">마이크를 클릭하여 시작하세요</p>
+        <!-- AI 답 게이지바 -->
+        <div id="aiThinkingContainer" class="ai-thinking-container" style="display: none;">
+          <div id="aiProgressBar" class="progress-bar">
+              <div id="aiProgressFill"></div>
+          </div>
+          <p id="aiThinkingText" class="status-text">AI 답 생각 중...</p>
+        </div>
+      </div>
+          
+      
+      <!-- Next Question Button -->
+      <div class="next-button-container">
+        <button id="nextQuestionButton" class="styled-button">다음 문제</button>
+      </div>
+      <!-- 경고 메시지 -->
+      <p id="warningMessage" class="warning" style="display: none; color: red; font-weight: bold; text-align: center;">
+        문제를 풀고 다음 문제로 넘어가세요!
+      </p>
+
+
+      <div class="results-wrapper">
+        <div class="result-section" id="studentCorrectnessBox">
+          <h3>학생 정답 상태</h3>
+          <p>기다리는 중...</p>
+        </div>
+        <div class="result-section" id="aiCorrectnessBox">
+          <h3>AI 정답 상태</h3>
+          <p>기다리는 중...</p>
+        </div>
+      </div>
+      <!--응답시간-->
+      <div class="response-time-wrapper">
+        <div class="response-time-box">
+          <h3>학생 응답 시간</h3>
+          <p>학생: <span id="studentResponseTime">0.00초</span></p>
+        </div>
+        <div class="response-time-box">
+          <h3>AI 응답 시간</h3>
+          <p>AI: <span id="aiResponseTime">0.00초</span></p>
+        </div>
+      </div>
+      
+      
+
+      <div class="accuracy-wrapper">
+        <div class="accuracy-box" id="studentAccuracyBox">
+          <h3>학생 정답률</h3>
+          <p id="studentAccuracy">0%</p>
+        </div>
+        <div class="accuracy-box" id="aiAccuracyBox">
+          <h3>AI 정답률</h3>
+          <p id="aiAccuracy">0%</p>
+        </div>
+      </div>
+    </div>
+
+    <script src="{% static 'js/sent_practice.js' %}"></script>
+  </body>
+{% endblock %}

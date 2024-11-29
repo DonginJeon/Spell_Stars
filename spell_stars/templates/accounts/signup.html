@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+{% load static %}
+{% load crispy_forms_tags %}
+<html lang="ko">
+
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="https://bootswatch.com/5/litera/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <title>spell stars | 회원가입</title>
+  </head>
+
+  <body>
+    <div class="container bg-white shadow-md p-5 form-layout">
+      <h2>회원가입</h2>
+      <form method="post" action="{% url 'signup' %}" autocomplete="off">
+        {% csrf_token %}
+        <table>
+          {{ form|crispy }}
+        </table>
+        <button class="btn btn-outline-dark btn-md w-100 btn-block p-3" type="submit">회원가입</button>
+      </form>
+      <br>
+      <a class="btn btn-outline-dark btn-md w-100 btn-block p-3" href="{% url 'index' %}">뒤로가기</a>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const studentCodeInput = document.querySelector('input[name="student_code"]');
+        const gradeSelect = document.querySelector('select[name="grade"]');
+        const roleInputs = document.querySelectorAll('input[name="role"]');
+
+        // 숨김 처리를 위한 Bootstrap 클래스 추가/제거
+        function toggleFields() {
+            const selectedRole = document.querySelector('input[name="role"]:checked').value;
+            if (selectedRole === 'parent') {
+                studentCodeInput.closest('.mb-3').classList.remove('d-none');
+                gradeSelect.closest('.mb-3').classList.add('d-none');
+            } else {
+                studentCodeInput.closest('.mb-3').classList.add('d-none');
+                gradeSelect.closest('.mb-3').classList.remove('d-none');
+            }
+        }
+
+        // 라디오 버튼 변경 이벤트 연결
+        roleInputs.forEach(input => input.addEventListener('change', toggleFields));
+
+        // 페이지 로드 시 초기 설정
+        toggleFields();
+      });
+    </script>
+  </body>
+</html>
